@@ -32,17 +32,15 @@ $(function () {
     var currentHour = dayjs().format("H");
     for(var i = 0; i < timeBlocksEl.length; i++){
       var blockHour = parseInt(timeBlocksEl[i].attr("id").slice(5));
-      console.log("timeblock hour is " + blockHour);
-      console.log(currentHour);
       if(blockHour > currentHour){
-        console.log('future');
         timeBlocksEl[i].addClass("future");
+        $(timeBlocksEl[i]).removeClass("past present")
       }else if(blockHour == currentHour){
-        console.log('present');
         timeBlocksEl[i].addClass("present");
+        $(timeBlocksEl[i]).removeClass("past future")
       }else{
-        console.log('past');
         timeBlocksEl[i].addClass("past");
+        $(timeBlocksEl[i]).removeClass("future present")
       }
     }
   }
