@@ -18,15 +18,15 @@ $(function () {
   ]
 
   var dayPlans = {
-    hour9: '',
-    hour10: '',
-    hour11: '',
-    hour12: '',
-    hour13: '',
-    hour14: '',
-    hour15: '',
-    hour16: '',
-    hour17: '',
+    hour9:'',
+    hour10:'',
+    hour11:'',
+    hour12:'',
+    hour13:'',
+    hour14:'',
+    hour15:'',
+    hour16:'',
+    hour17:'',
   };
   // TODO: Add a listener for click events on the save button. This code should
   // use the id in the containing time-block as a key to save the user input in
@@ -37,11 +37,11 @@ $(function () {
   //
 
   saveBtnEl.on("click",function(event){
-    parentDiv = $(event.target).parent();
-    hourSaved = "hour" + parentDiv.attr("id").slice(5);
-    userInput = parentDiv.children('textarea').val();
+    var parentDiv = $(event.target).parent();
+    var hourSaved = "hour" + parentDiv.attr("id").slice(5);
+    var userInput = parentDiv.children('textarea').val();
 
-    dayPlans[hourSaved] = userInput;
+    dayPlans[hourSaved] = userInput.trim();
     localStorage.setItem("dayPlans", JSON.stringify(dayPlans));
   });
   // TODO: Add code to apply the past, present, or future class to each time
@@ -71,7 +71,26 @@ $(function () {
   // the values of the corresponding textarea elements. HINT: How can the id
   // attribute of each time-block be used to do this?
   //
+  function checkLocalStorage(){
+    var savedDayPlans = JSON.parse(localStorage.getItem("dayPlans"));
+
+    if(savedDayPlans !== null){
+      dayPlans = savedDayPlans;
+      console.log(dayPlans);
+      for(var i = 0; i < timeBlocksEl.length; i++){
+        var blockHour = timeBlocksEl[i].attr("id").slice(5);
+        var hourSaved = "hour" + blockHour;
+        var textAreaEl = timeBlocksEl[i].children('textarea');
+        if(dayPlans[hourSaved] !== null){
+          textAreaEl.text(dayPlans[hourSaved]);
+        }
+      }
+
+    }
+  }
   // TODO: Add code to display the current date in the header of the page.
   checkTimeBlocks();
   currentDateEl.text(dayjs().format("dddd, MMMM D"));
+
+  checkLocalStorage();
 });
