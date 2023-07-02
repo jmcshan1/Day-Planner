@@ -1,9 +1,21 @@
 // Wrap all code that interacts with the DOM in a call to jQuery to ensure that
 // the code isn't run until the browser has finished rendering all the elements
 // in the html.
+
 $(function () {
-  currentDateEl = $("#currentDay");
-  saveBtnEl = $(".saveBtn");
+  var currentDateEl = $("#currentDay");
+  var saveBtnEl = $(".saveBtn");
+  var timeBlocksEl = [
+    timeBlock9EL = $("#hour-9"),
+    timeBlock10EL = $("#hour-10"),
+    timeBlock11EL = $("#hour-11"),
+    timeBlock12EL = $("#hour-12"),
+    timeBlock1EL = $("#hour-13"),
+    timeBlock2EL = $("#hour-14"),
+    timeBlock3EL = $("#hour-15"),
+    timeBlock4EL = $("#hour-16"),
+    timeBlock5EL = $("#hour-17"),
+  ]
   // TODO: Add a listener for click events on the save button. This code should
   // use the id in the containing time-block as a key to save the user input in
   // local storage. HINT: What does `this` reference in the click listener
@@ -16,13 +28,31 @@ $(function () {
   // attribute of each time-block be used to conditionally add or remove the
   // past, present, and future classes? How can Day.js be used to get the
   // current hour in 24-hour time?
+  function checkTimeBlocks(){
+    var currentHour = dayjs().format("H");
+    for(var i = 0; i < timeBlocksEl.length; i++){
+      var blockHour = parseInt(timeBlocksEl[i].attr("id").slice(5));
+      console.log("timeblock hour is " + blockHour);
+      console.log(currentHour);
+      if(blockHour > currentHour){
+        console.log('future');
+        timeBlocksEl[i].addClass("future");
+      }else if(blockHour == currentHour){
+        console.log('present');
+        timeBlocksEl[i].addClass("present");
+      }else{
+        console.log('past');
+        timeBlocksEl[i].addClass("past");
+      }
+    }
+  }
+
   //
   // TODO: Add code to get any user input that was saved in localStorage and set
   // the values of the corresponding textarea elements. HINT: How can the id
   // attribute of each time-block be used to do this?
   //
   // TODO: Add code to display the current date in the header of the page.
-  var advancedFormat = require('dayjs/plugin/advancedFormat');
-  dayjs.extend(advancedFormat);
-  currentDateEl.text(dayjs().format("dddd, MMMM D Do"));
+  checkTimeBlocks();
+  currentDateEl.text(dayjs().format("dddd, MMMM D"));
 });
