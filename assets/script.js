@@ -35,8 +35,10 @@ $(function () {
   // When the save button of a timeblock is clicked, the text in the text area
   // is saved into the javascript object corresonding to the matching hour.
   saveBtnEl.on("click",function(event){
-    var parentDiv = $(event.target).parent();
-    var hourSaved = "hour" + parentDiv.attr("id").slice(5);
+    var parentDiv = $(this).parent();
+
+    var hourSaved = "hour" + (parentDiv.attr("id")).toString().slice(5);
+    console.log(hourSaved);
     var userInput = parentDiv.children('textarea').val();
 
     dayPlans[hourSaved] = userInput.trim();
